@@ -1,220 +1,172 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal SMANIX - Edisi Pramuka</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #1a140f; color: #f0f0f0; }
-        .scout-bg { background: rgba(75, 54, 33, 0.9); border: 1px solid #C19A6B; }
-        .btn-scout { background-color: #C19A6B; color: #4B3621; transition: 0.3s; }
-        .btn-scout:hover { background-color: #FFD700; }
-        .hidden { display: none; }
-        #canvas-container { position: relative; width: 100%; max-width: 400px; aspect-ratio: 1/1; overflow: hidden; border: 4px solid #C19A6B; background: #000; touch-action: none; margin: auto; }
-        canvas { width: 100%; height: 100%; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal Twibbon Pramuka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pramuka-coklat: #8B4513;
+      --pramuka-coklat-gelap: #5D2906;
+      --pramuka-kuning: #FFD700;
+      --pramuka-kuning-muda: #FFF8DC;
+      --pramuka-hijau: #228B22;
+      --pramuka-hijau-muda: #90EE90;
+      --bg-dark: #2C1810;
+      --card-bg: rgba(139, 69, 19, 0.15);
+      --border: rgba(255, 215, 0, 0.3);
+      --text-light: #FFF8DC;
+      --text-muted: #D2B48C;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), #1a0f08);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.6s ease forwards;
+      overflow: hidden;
+    }
+
+    .container {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 50px 40px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .logo-pramuka {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 15px;
+      background: var(--pramuka-kuning);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border: 3px solid var(--pramuka-coklat);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 28px;
+      color: var(--pramuka-kuning);
+      margin-bottom: 8px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: 2px solid var(--pramuka-kuning);
+      cursor: pointer;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--pramuka-coklat), var(--pramuka-coklat-gelap));
+      color: var(--pramuka-kuning);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+      background: linear-gradient(135deg, var(--pramuka-coklat-gelap), var(--pramuka-coklat));
+    }
+
+    .btn-secondary {
+      background: none;
+      border: 2px solid var(--pramuka-kuning);
+      color: var(--pramuka-kuning);
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--pramuka-kuning);
+      color: var(--pramuka-coklat-gelap);
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #A0522D;
+      letter-spacing: 0.5px;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      padding-top: 15px;
+    }
+
+    .tali-knot {
+      display: inline-block;
+      margin: 0 5px;
+      color: var(--pramuka-kuning);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
 </head>
-<body class="p-4">
+<body>
+  <div class="container">
+    <div class="logo-pramuka">⚜️</div>
+    <h1>PORTAL TWIBBON</h1>
+    <p class="subtitle">"Satyaku Kudarmakan, Darmaku Kubaktikan"</p>
 
-    <nav class="max-w-4xl mx-auto flex justify-between mb-6 text-xs text-[#C19A6B]">
-        <span onclick="showPage('home')" class="cursor-pointer">🏠 Beranda</span>
-        <div>
-            <span id="admin-link" onclick="showPage('login')" class="cursor-pointer">🔐 Admin</span>
-            <span id="logout-link" onclick="handleLogout()" class="cursor-pointer hidden">🚪 Logout</span>
-        </div>
-    </nav>
+    <a href="peserta.html" class="btn" onclick="navigateWithTransition(event)">🎓 Twibbon Peserta</a>
+    <a href="panitia.html" class="btn" onclick="navigateWithTransition(event)">🛠️ Twibbon Panitia</a>
+    <a href="caption.html" class="btn" onclick="navigateWithTransition(event)">📝 Caption</a>
 
-    <div class="max-w-4xl mx-auto">
-        
-        <div id="page-home" class="page">
-            <header class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-[#FFD700]">⚜️ PRAMUKA SMANIX ⚜️</h1>
-                <p class="text-[#C19A6B]">Satyaku Kudarmakan, Darmaku Kubaktikan</p>
-            </header>
-
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="scout-bg p-6 rounded-xl">
-                    <h2 class="text-lg font-bold mb-4 border-b border-[#C19A6B] pb-2">📸 TWIBBON</h2>
-                    <select id="frameSelect" class="w-full p-2 mb-4 bg-[#2d1e12] border border-[#C19A6B] rounded text-white text-sm">
-                        <option value="twibbons/peserta/mpls25_rev.png">Peserta MPLS 2025</option>
-                        <option value="twibbons/panitia/ldks1.png">Panitia LDKS 2025</option>
-                    </select>
-                    <input type="file" id="uploadFoto" class="mb-4 text-xs">
-                    <div id="canvas-container"><canvas id="mainCanvas" width="1000" height="1000"></canvas></div>
-                    <input type="range" id="zoomRange" min="0.1" max="3" step="0.01" value="1" class="w-full mt-4 accent-[#FFD700]">
-                    <button onclick="downloadImage()" class="btn-scout w-full mt-4 py-3 rounded-lg font-bold">DOWNLOAD</button>
-                </div>
-
-                <div class="scout-bg p-6 rounded-xl">
-                    <h2 class="text-lg font-bold mb-4 border-b border-[#C19A6B] pb-2">📝 CAPTION</h2>
-                    <select id="capSelect" onchange="renderCapForm()" class="w-full p-2 mb-4 bg-[#2d1e12] border border-[#C19A6B] rounded text-white text-sm"></select>
-                    <div id="capInputs" class="space-y-3"></div>
-                    <textarea id="capResult" class="w-full h-40 mt-4 p-3 bg-black/40 border border-[#C19A6B] rounded text-xs" readonly></textarea>
-                    <button onclick="copyCap()" class="btn-scout w-full mt-2 py-2 rounded font-semibold text-sm">SALIN CAPTION</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-login" class="page hidden max-w-sm mx-auto scout-bg p-8 rounded-xl text-center">
-            <h2 class="text-xl font-bold text-[#FFD700] mb-6">ADMIN LOGIN</h2>
-            <input type="text" id="userIn" placeholder="Username" class="w-full p-3 mb-4 bg-black/20 border border-[#C19A6B] rounded">
-            <input type="password" id="passIn" placeholder="Password" class="w-full p-3 mb-6 bg-black/20 border border-[#C19A6B] rounded">
-            <button onclick="handleLogin()" class="btn-scout w-full py-3 rounded-lg font-bold">MASUK</button>
-            <p id="loginError" class="text-red-500 text-xs mt-4"></p>
-        </div>
-
-        <div id="page-admin" class="page hidden space-y-6">
-            <h2 class="text-2xl font-bold text-[#FFD700] text-center text-uppercase">⚜️ Panel Kendali Admin ⚜️</h2>
-            
-            <div class="scout-bg p-6 rounded-xl">
-                <h3 class="font-bold mb-4 text-[#C19A6B]">🔐 GANTI PASSWORD ADMIN</h3>
-                <input type="password" id="newPass" placeholder="Password Baru" class="w-full p-2 bg-black/20 border border-[#C19A6B] rounded mb-2">
-                <button onclick="saveNewPass()" class="btn-scout px-4 py-2 rounded text-sm">Update Password</button>
-            </div>
-
-            <div class="scout-bg p-6 rounded-xl">
-                <h3 class="font-bold mb-4 text-[#C19A6B]">📝 MANAJEMEN TEMPLATE CAPTION</h3>
-                <div id="adminCapList" class="space-y-4 mb-4"></div>
-                <button onclick="addTemplate()" class="bg-green-700 text-white px-4 py-2 rounded text-sm">+ Tambah Template</button>
-                <button onclick="saveCaptions()" class="btn-scout px-4 py-2 rounded text-sm ml-2 font-bold">💾 SIMPAN SEMUA PERUBAHAN</button>
-            </div>
-        </div>
-
+    <div class="footer">
+      <span class="tali-knot">🪢</span>
+      © 2025 Pramuka - Gerakan Pramuka Indonesia<br>
+      Dibangun dengan Semangat Dasa Darma
+      <span class="tali-knot">🪢</span>
     </div>
+  </div>
 
-    <script>
-        // --- STORAGE & INITIAL DATA ---
-        let adminPass = localStorage.getItem('adminPass') || 'osissmanix';
-        let captions = JSON.parse(localStorage.getItem('captions')) || [
-            { "title": "MPLS 2025", "content": "Halo! Saya {nama} siap MPLS! #smanix" },
-            { "title": "LDKS 2025", "content": "Saya {nama} siap memimpin! Moto: {moto}" }
-        ];
-
-        // --- NAVIGATION LOGIC ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            document.getElementById('page-' + pageId).classList.remove('hidden');
-        }
-
-        function handleLogin() {
-            const u = document.getElementById('userIn').value;
-            const p = document.getElementById('passIn').value;
-            if (u === 'admin' && p === adminPass) {
-                showPage('admin');
-                document.getElementById('admin-link').classList.add('hidden');
-                document.getElementById('logout-link').classList.remove('hidden');
-                renderAdminCaps();
-            } else {
-                document.getElementById('loginError').innerText = "Password Salah!";
-            }
-        }
-
-        function handleLogout() {
-            location.reload();
-        }
-
-        function saveNewPass() {
-            const p = document.getElementById('newPass').value;
-            if(p) {
-                localStorage.setItem('adminPass', p);
-                alert("Password diperbarui!");
-            }
-        }
-
-        // --- TWIBBON LOGIC (Ganti panitia.php logic) ---
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
-        let frameImg = new Image(), photoImg = new Image();
-        let scale = 1, posX = 500, posY = 500;
-
-        document.getElementById('uploadFoto').onchange = (e) => {
-            const r = new FileReader();
-            r.onload = (ev) => { photoImg.src = ev.target.result; };
-            r.readAsDataURL(e.target.files[0]);
-        };
-
-        function draw() {
-            ctx.clearRect(0,0,1000,1000);
-            if(photoImg.src) {
-                const w = photoImg.width * scale, h = photoImg.height * scale;
-                ctx.drawImage(photoImg, posX - w/2, posY - h/2, w, h);
-            }
-            ctx.drawImage(frameImg, 0, 0, 1000, 1000);
-            requestAnimationFrame(draw);
-        }
-        
-        frameImg.src = document.getElementById('frameSelect').value;
-        document.getElementById('frameSelect').onchange = (e) => frameImg.src = e.target.value;
-        document.getElementById('zoomRange').oninput = (e) => scale = e.target.value;
-        draw();
-
-        // Touch Control
-        const mc = new Hammer(document.getElementById('canvas-container'));
-        mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-        mc.on("panmove", (e) => { posX += e.velocityX * 20; posY += e.velocityY * 20; });
-
-        function downloadImage() {
-            const a = document.createElement('a');
-            a.download = 'twibbon-pramuka.png';
-            a.href = canvas.toDataURL();
-            a.click();
-        }
-
-        // --- CAPTION LOGIC (Ganti caption.php & edit_caption.php) ---
-        function renderCapSelect() {
-            const sel = document.getElementById('capSelect');
-            sel.innerHTML = captions.map((c, i) => `<option value="${i}">${c.title}</option>`).join('');
-            renderCapForm();
-        }
-
-        function renderCapForm() {
-            const c = captions[document.getElementById('capSelect').value];
-            const fields = c.content.match(/{(.*?)}/g) || [];
-            document.getElementById('capInputs').innerHTML = [...new Set(fields)].map(f => `
-                <input type="text" placeholder="Isi ${f}..." class="w-full p-2 bg-black/20 border border-[#C19A6B] rounded text-sm cap-in" data-key="${f}" oninput="updateCapText()">
-            `).join('');
-            updateCapText();
-        }
-
-        function updateCapText() {
-            let t = captions[document.getElementById('capSelect').value].content;
-            document.querySelectorAll('.cap-in').forEach(i => {
-                t = t.replaceAll(i.dataset.key, i.value || i.dataset.key);
-            });
-            document.getElementById('capResult').value = t;
-        }
-
-        function copyCap() {
-            document.getElementById('capResult').select();
-            document.execCommand('copy');
-            alert("Disalin!");
-        }
-
-        // --- ADMIN CAPTION MANAGEMENT ---
-        function renderAdminCaps() {
-            const list = document.getElementById('adminCapList');
-            list.innerHTML = captions.map((c, i) => `
-                <div class="p-4 bg-black/20 rounded border border-white/10">
-                    <input type="text" value="${c.title}" onchange="updateCapData(${i}, 'title', this.value)" class="w-full mb-2 bg-transparent font-bold text-[#FFD700]">
-                    <textarea class="w-full bg-transparent text-xs" rows="3" onchange="updateCapData(${i}, 'content', this.value)">${c.content}</textarea>
-                    <button onclick="deleteTemplate(${i})" class="text-red-500 text-xs mt-2">Hapus</button>
-                </div>
-            `).join('');
-        }
-
-        function updateCapData(i, key, val) { captions[i][key] = val; }
-        function addTemplate() { captions.push({title: "Baru", content: "Isi {nama}"}); renderAdminCaps(); }
-        function deleteTemplate(i) { captions.splice(i, 1); renderAdminCaps(); }
-        function saveCaptions() {
-            localStorage.setItem('captions', JSON.stringify(captions));
-            alert("Data Berhasil Disimpan di Browser!");
-            renderCapSelect();
-        }
-
-        renderCapSelect();
-    </script>
+  <script>
+    function navigateWithTransition(event) {
+      event.preventDefault();
+      const target = event.currentTarget.getAttribute("href");
+      document.body.style.animation = "fadeOut 0.4s forwards";
+      setTimeout(() => { window.location.href = target; }, 400);
+    }
+  </script>
 </body>
 </html>
