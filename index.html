@@ -1,188 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Caption Pramuka</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --scout-dark: #4B3621; /* Cokelat Tua Pramuka */
-      --scout-light: #C19A6B; /* Cokelat Muda/Hasduk */
-      --scout-accent: #FFD700; /* Emas/Kuning Tunas Kelapa */
-      --bg-dark: #1a140f;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--bg-dark), #2d1e12);
-      color: #f0f0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .container {
-      background: rgba(75, 54, 33, 0.2);
-      backdrop-filter: blur(15px);
-      border: 2px solid var(--scout-light);
-      padding: 30px;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    h1 {
-      color: var(--scout-accent);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 1.5rem;
-    }
-
-    p.subtitle {
-      font-size: 0.9rem;
-      margin-bottom: 25px;
-      color: var(--scout-light);
-    }
-
-    .form-group { text-align: left; margin-bottom: 15px; }
-
-    label { display: block; margin-bottom: 5px; color: var(--scout-light); font-size: 0.85rem; }
-
-    select, input, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(193, 154, 107, 0.3);
-      background: rgba(0, 0, 0, 0.3);
-      color: #fff;
-      font-family: inherit;
-      outline: none;
-    }
-
-    select:focus, input:focus { border-color: var(--scout-accent); }
-
-    .btn {
-      width: 100%;
-      padding: 15px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 10px;
-      background: var(--scout-light);
-      color: var(--scout-dark);
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      text-transform: uppercase;
-    }
-
-    .btn:hover { background: var(--scout-accent); transform: translateY(-2px); }
-
-    .btn-copy { background: transparent; border: 1px solid var(--scout-accent); color: var(--scout-accent); margin-top: 10px; }
-
-    textarea { margin-top: 20px; resize: none; background: rgba(255,255,255,0.05); height: 150px; }
-
-    .footer { margin-top: 25px; font-size: 0.75rem; color: rgba(193, 154, 107, 0.6); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal SMANIX - Edisi Pramuka</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #1a140f; color: #f0f0f0; }
+        .scout-bg { background: rgba(75, 54, 33, 0.9); border: 1px solid #C19A6B; }
+        .btn-scout { background-color: #C19A6B; color: #4B3621; transition: 0.3s; }
+        .btn-scout:hover { background-color: #FFD700; }
+        .hidden { display: none; }
+        #canvas-container { position: relative; width: 100%; max-width: 400px; aspect-ratio: 1/1; overflow: hidden; border: 4px solid #C19A6B; background: #000; touch-action: none; margin: auto; }
+        canvas { width: 100%; height: 100%; }
+    </style>
 </head>
-<body>
+<body class="p-4">
 
-<div class="container">
-  <h1>⚜️ Scouter Caption ⚜️</h1>
-  <p class="subtitle">Satu Pramuka untuk Satu Indonesia</p>
+    <nav class="max-w-4xl mx-auto flex justify-between mb-6 text-xs text-[#C19A6B]">
+        <span onclick="showPage('home')" class="cursor-pointer">🏠 Beranda</span>
+        <div>
+            <span id="admin-link" onclick="showPage('login')" class="cursor-pointer">🔐 Admin</span>
+            <span id="logout-link" onclick="handleLogout()" class="cursor-pointer hidden">🚪 Logout</span>
+        </div>
+    </nav>
 
-  <div class="form-group">
-    <label>Pilih Template:</label>
-    <select id="templateSelect" onchange="generateDynamicFields()">
-      <option value="">-- Pilih Kegiatan --</option>
-    </select>
-  </div>
+    <div class="max-w-4xl mx-auto">
+        
+        <div id="page-home" class="page">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-[#FFD700]">⚜️ PRAMUKA SMANIX ⚜️</h1>
+                <p class="text-[#C19A6B]">Satyaku Kudarmakan, Darmaku Kubaktikan</p>
+            </header>
 
-  <div id="dynamicFields"></div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="scout-bg p-6 rounded-xl">
+                    <h2 class="text-lg font-bold mb-4 border-b border-[#C19A6B] pb-2">📸 TWIBBON</h2>
+                    <select id="frameSelect" class="w-full p-2 mb-4 bg-[#2d1e12] border border-[#C19A6B] rounded text-white text-sm">
+                        <option value="twibbons/peserta/mpls25_rev.png">Peserta MPLS 2025</option>
+                        <option value="twibbons/panitia/ldks1.png">Panitia LDKS 2025</option>
+                    </select>
+                    <input type="file" id="uploadFoto" class="mb-4 text-xs">
+                    <div id="canvas-container"><canvas id="mainCanvas" width="1000" height="1000"></canvas></div>
+                    <input type="range" id="zoomRange" min="0.1" max="3" step="0.01" value="1" class="w-full mt-4 accent-[#FFD700]">
+                    <button onclick="downloadImage()" class="btn-scout w-full mt-4 py-3 rounded-lg font-bold">DOWNLOAD</button>
+                </div>
 
-  <button class="btn" onclick="generateCaption()">🔥 Buat Caption</button>
-  
-  <textarea id="resultCaption" readonly placeholder="Hasil caption akan muncul di sini..."></textarea>
-  
-  <button class="btn btn-copy" onclick="copyToClipboard()">📋 Salin Caption</button>
-
-  <div class="footer">
-    © 2026 Tim Cyber Pramuka<br>
-    Satyaku Kudarmakan, Darmaku Kubaktikan.
-  </div>
-</div>
-
-<script>
-// Data diambil dari caption.json yang kamu upload
-const captionData = [
-    {
-        "title": "PESERTA MPLS 2025",
-        "content": "BACK TO SCHOOL‼️🏫\n\nHaloo sobat SMANIX👋\nSaya {nama} dari {sekolah}\n\nSIAP MENGIKUTI KEGIATAN\n✨MPLS SMANIX 2025✨\n\n{katakata}\n\n#nationix #scout #pramukaupdate"
-    },
-    {
-        "title": "PANITIA LDKS 2025",
-        "content": "LEADERSHIP TIME‼️🔥\n\nHalo sobat SMANIX👋\nSaya {nama} Kelas {kelas} selaku Panitia LDKS\n\nSIAP MENYUKSESKAN KEGIATAN\n✨LDKS SMANIX 2025✨\n\nMoto Hidup : {moto}\n\nLEAD WITH CHARACTER‼️"
-    }
-];
-
-const templateSelect = document.getElementById('templateSelect');
-const dynamicFields = document.getElementById('dynamicFields');
-const resultCaption = document.getElementById('resultCaption');
-
-// Load options
-captionData.forEach((item, index) => {
-    let opt = document.createElement('option');
-    opt.value = index;
-    opt.innerHTML = item.title;
-    templateSelect.appendChild(opt);
-});
-
-function generateDynamicFields() {
-    const selected = captionData[templateSelect.value];
-    dynamicFields.innerHTML = "";
-    if (!selected) return;
-
-    const matches = selected.content.match(/{(.*?)}/g) || [];
-    const uniqueFields = [...new Set(matches)];
-
-    uniqueFields.forEach(match => {
-        const fieldName = match.replace(/[{}]/g, "");
-        dynamicFields.innerHTML += `
-            <div class="form-group">
-                <label>${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}:</label>
-                <input type="text" class="user-input" data-key="${match}" placeholder="Isi ${fieldName}...">
+                <div class="scout-bg p-6 rounded-xl">
+                    <h2 class="text-lg font-bold mb-4 border-b border-[#C19A6B] pb-2">📝 CAPTION</h2>
+                    <select id="capSelect" onchange="renderCapForm()" class="w-full p-2 mb-4 bg-[#2d1e12] border border-[#C19A6B] rounded text-white text-sm"></select>
+                    <div id="capInputs" class="space-y-3"></div>
+                    <textarea id="capResult" class="w-full h-40 mt-4 p-3 bg-black/40 border border-[#C19A6B] rounded text-xs" readonly></textarea>
+                    <button onclick="copyCap()" class="btn-scout w-full mt-2 py-2 rounded font-semibold text-sm">SALIN CAPTION</button>
+                </div>
             </div>
-        `;
-    });
-}
+        </div>
 
-function generateCaption() {
-    const selected = captionData[templateSelect.value];
-    if (!selected) return alert("Pilih template dulu, Kak!");
+        <div id="page-login" class="page hidden max-w-sm mx-auto scout-bg p-8 rounded-xl text-center">
+            <h2 class="text-xl font-bold text-[#FFD700] mb-6">ADMIN LOGIN</h2>
+            <input type="text" id="userIn" placeholder="Username" class="w-full p-3 mb-4 bg-black/20 border border-[#C19A6B] rounded">
+            <input type="password" id="passIn" placeholder="Password" class="w-full p-3 mb-6 bg-black/20 border border-[#C19A6B] rounded">
+            <button onclick="handleLogin()" class="btn-scout w-full py-3 rounded-lg font-bold">MASUK</button>
+            <p id="loginError" class="text-red-500 text-xs mt-4"></p>
+        </div>
 
-    let finalContent = selected.content;
-    const inputs = document.querySelectorAll('.user-input');
-    
-    inputs.forEach(input => {
-        finalContent = finalContent.replaceAll(input.getAttribute('data-key'), input.value || "...");
-    });
+        <div id="page-admin" class="page hidden space-y-6">
+            <h2 class="text-2xl font-bold text-[#FFD700] text-center text-uppercase">⚜️ Panel Kendali Admin ⚜️</h2>
+            
+            <div class="scout-bg p-6 rounded-xl">
+                <h3 class="font-bold mb-4 text-[#C19A6B]">🔐 GANTI PASSWORD ADMIN</h3>
+                <input type="password" id="newPass" placeholder="Password Baru" class="w-full p-2 bg-black/20 border border-[#C19A6B] rounded mb-2">
+                <button onclick="saveNewPass()" class="btn-scout px-4 py-2 rounded text-sm">Update Password</button>
+            </div>
 
-    resultCaption.value = finalContent;
-}
+            <div class="scout-bg p-6 rounded-xl">
+                <h3 class="font-bold mb-4 text-[#C19A6B]">📝 MANAJEMEN TEMPLATE CAPTION</h3>
+                <div id="adminCapList" class="space-y-4 mb-4"></div>
+                <button onclick="addTemplate()" class="bg-green-700 text-white px-4 py-2 rounded text-sm">+ Tambah Template</button>
+                <button onclick="saveCaptions()" class="btn-scout px-4 py-2 rounded text-sm ml-2 font-bold">💾 SIMPAN SEMUA PERUBAHAN</button>
+            </div>
+        </div>
 
-function copyToClipboard() {
-    resultCaption.select();
-    document.execCommand("copy");
-    alert("✅ Caption berhasil disalin!");
-}
-</script>
+    </div>
 
+    <script>
+        // --- STORAGE & INITIAL DATA ---
+        let adminPass = localStorage.getItem('adminPass') || 'osissmanix';
+        let captions = JSON.parse(localStorage.getItem('captions')) || [
+            { "title": "MPLS 2025", "content": "Halo! Saya {nama} siap MPLS! #smanix" },
+            { "title": "LDKS 2025", "content": "Saya {nama} siap memimpin! Moto: {moto}" }
+        ];
+
+        // --- NAVIGATION LOGIC ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+        }
+
+        function handleLogin() {
+            const u = document.getElementById('userIn').value;
+            const p = document.getElementById('passIn').value;
+            if (u === 'admin' && p === adminPass) {
+                showPage('admin');
+                document.getElementById('admin-link').classList.add('hidden');
+                document.getElementById('logout-link').classList.remove('hidden');
+                renderAdminCaps();
+            } else {
+                document.getElementById('loginError').innerText = "Password Salah!";
+            }
+        }
+
+        function handleLogout() {
+            location.reload();
+        }
+
+        function saveNewPass() {
+            const p = document.getElementById('newPass').value;
+            if(p) {
+                localStorage.setItem('adminPass', p);
+                alert("Password diperbarui!");
+            }
+        }
+
+        // --- TWIBBON LOGIC (Ganti panitia.php logic) ---
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        let frameImg = new Image(), photoImg = new Image();
+        let scale = 1, posX = 500, posY = 500;
+
+        document.getElementById('uploadFoto').onchange = (e) => {
+            const r = new FileReader();
+            r.onload = (ev) => { photoImg.src = ev.target.result; };
+            r.readAsDataURL(e.target.files[0]);
+        };
+
+        function draw() {
+            ctx.clearRect(0,0,1000,1000);
+            if(photoImg.src) {
+                const w = photoImg.width * scale, h = photoImg.height * scale;
+                ctx.drawImage(photoImg, posX - w/2, posY - h/2, w, h);
+            }
+            ctx.drawImage(frameImg, 0, 0, 1000, 1000);
+            requestAnimationFrame(draw);
+        }
+        
+        frameImg.src = document.getElementById('frameSelect').value;
+        document.getElementById('frameSelect').onchange = (e) => frameImg.src = e.target.value;
+        document.getElementById('zoomRange').oninput = (e) => scale = e.target.value;
+        draw();
+
+        // Touch Control
+        const mc = new Hammer(document.getElementById('canvas-container'));
+        mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+        mc.on("panmove", (e) => { posX += e.velocityX * 20; posY += e.velocityY * 20; });
+
+        function downloadImage() {
+            const a = document.createElement('a');
+            a.download = 'twibbon-pramuka.png';
+            a.href = canvas.toDataURL();
+            a.click();
+        }
+
+        // --- CAPTION LOGIC (Ganti caption.php & edit_caption.php) ---
+        function renderCapSelect() {
+            const sel = document.getElementById('capSelect');
+            sel.innerHTML = captions.map((c, i) => `<option value="${i}">${c.title}</option>`).join('');
+            renderCapForm();
+        }
+
+        function renderCapForm() {
+            const c = captions[document.getElementById('capSelect').value];
+            const fields = c.content.match(/{(.*?)}/g) || [];
+            document.getElementById('capInputs').innerHTML = [...new Set(fields)].map(f => `
+                <input type="text" placeholder="Isi ${f}..." class="w-full p-2 bg-black/20 border border-[#C19A6B] rounded text-sm cap-in" data-key="${f}" oninput="updateCapText()">
+            `).join('');
+            updateCapText();
+        }
+
+        function updateCapText() {
+            let t = captions[document.getElementById('capSelect').value].content;
+            document.querySelectorAll('.cap-in').forEach(i => {
+                t = t.replaceAll(i.dataset.key, i.value || i.dataset.key);
+            });
+            document.getElementById('capResult').value = t;
+        }
+
+        function copyCap() {
+            document.getElementById('capResult').select();
+            document.execCommand('copy');
+            alert("Disalin!");
+        }
+
+        // --- ADMIN CAPTION MANAGEMENT ---
+        function renderAdminCaps() {
+            const list = document.getElementById('adminCapList');
+            list.innerHTML = captions.map((c, i) => `
+                <div class="p-4 bg-black/20 rounded border border-white/10">
+                    <input type="text" value="${c.title}" onchange="updateCapData(${i}, 'title', this.value)" class="w-full mb-2 bg-transparent font-bold text-[#FFD700]">
+                    <textarea class="w-full bg-transparent text-xs" rows="3" onchange="updateCapData(${i}, 'content', this.value)">${c.content}</textarea>
+                    <button onclick="deleteTemplate(${i})" class="text-red-500 text-xs mt-2">Hapus</button>
+                </div>
+            `).join('');
+        }
+
+        function updateCapData(i, key, val) { captions[i][key] = val; }
+        function addTemplate() { captions.push({title: "Baru", content: "Isi {nama}"}); renderAdminCaps(); }
+        function deleteTemplate(i) { captions.splice(i, 1); renderAdminCaps(); }
+        function saveCaptions() {
+            localStorage.setItem('captions', JSON.stringify(captions));
+            alert("Data Berhasil Disimpan di Browser!");
+            renderCapSelect();
+        }
+
+        renderCapSelect();
+    </script>
 </body>
 </html>
